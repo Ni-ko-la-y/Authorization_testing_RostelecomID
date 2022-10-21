@@ -10,10 +10,6 @@ class AuthPage(WebPage):
         url = os.getenv("LOGIN_URL") or 'https://b2c.passport.rt.ru/'
         super().__init__(web_driver, url)
 
-    # email = WebElement(id='email')
-    # password = WebElement(id='pass')
-    # btn = WebElement(class_name='btn.btn-success')
-
     """-------------------------Страница авторизации------------------------"""
     """Ссылка Зарегистрироваться"""
     link_register = WebElement(css_selector='#kc-register')
@@ -33,9 +29,10 @@ class AuthPage(WebPage):
 
     """Сообщение об ошибке - Неверный логин или пароль"""
     log_pass_error = WebElement(xpath='//*[@id="page-right"]//p')
+    site_ros_telecom = WebElement(id='rt-btn')
 
-    """Аватар пользователя в личном кабинете"""
-    avatar_user = WebElement(xpath='//*[@class="user-info__name-container"]//img')
+    """Аватар пользователя и Сайт Ростелекома в личном кабинете"""
+    avatar_user = WebElement(xpath='//*[@class="user-info__name-container"]/img')
 
     """-------------------------Страница регистрации-------------------------"""
     """Кнопка Зарегистрироваться"""
@@ -80,7 +77,16 @@ class AuthPage(WebPage):
     """Логотип Яндекс в Яндекс.паспорт"""
     logo_yandex = WebElement(xpath='//div[@class="Header-yaLogoBlock"]/a')
 
-    # """Информация о привязке социальной сети к личному кабинету"""
-    # bind_soc_network = WebElement(xpath='//p[contains(text(), "в настройках привяжите социальные сети")]')
+    """Поля ввода VK, кнопка Войти"""
+    field_email_vk = WebElement(name='email')
+    field_pass_vk = WebElement(name='pass')
+    btn_come_in_vk = WebElement(id='install_allow')
 
+    """Информация о привязке социальной сети к личному кабинету"""
+    bind_soc_network = WebElement(xpath='//p[contains(text(), "в настройках привяжите социальные сети")]')
+
+    """Поля ввода OK, кнопка Войти"""
+    field_email_ok = WebElement(id='field_email')
+    field_pass_ok = WebElement(id='field_password')
+    btn_come_in_ok = WebElement(class_name="button-pro.__wide.form-actions_yes")
 

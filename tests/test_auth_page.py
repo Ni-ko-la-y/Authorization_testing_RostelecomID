@@ -2,7 +2,7 @@ import time
 import pytest
 from pages.auth_page import AuthPage
 from config import name, surname, valid_email2, valid_password2, negative_email, negative_telephone
-from config import telephone, negative_pass, valid_email, pass_telecom, captcha
+from config import telephone, negative_pass, valid_email, pass_OK, pass_telecom, captcha, pass_VK
 
 # python -m pytest -v --driver Chrome --driver-path chromedriver.exe tests/test_auth_page.py
 
@@ -41,6 +41,7 @@ def test_2_negative(web_browser):
     page.field_reg_pass.send_keys(valid_password2)
     page.field_confirm.send_keys(valid_password2)
     page.button_reg.click()
+    time.sleep(20)
 
     """Проверяем отправку кода подтверждения email"""
     assert 'Kод подтверждения отправлен' in page.confirmation.get_text()
@@ -61,7 +62,7 @@ def test_3_negative(web_browser):
     page.field_reg_pass.send_keys(valid_password2)
     page.field_confirm.send_keys(valid_password2)
     page.button_reg.click()
-
+    time.sleep(20)
     """Проверяем отправку кода подтверждения телефона"""
     assert 'Kод подтверждения отправлен' in page.confirmation.get_text()
 
@@ -86,7 +87,7 @@ def test_5(web_browser):
     page = AuthPage(web_browser)
     web_browser.implicitly_wait(5)
 
-    """Вводим некорректные данные"""
+    """Вводим корректные данные"""
     page.field_mail.send_keys(valid_email)
     page.field_pass.send_keys(pass_telecom)
     page.button_come_in.click()
@@ -153,34 +154,44 @@ def test_9(web_browser):
     assert "Персональный помощник в цифровом мире Ростелекома" not in page.left_block.get_text()
 
 
-# def test_10(web_browser):
-#     """Получить информацию о привязке соц. сети к личному кабинету. """
-#
-#     page = AuthPage(web_browser)
-#
-#     """Клик по кнопке соц. сети VK"""
-#     page.button_VK.click()
-#
-#     """Проверяем наличие вспомогательной информации."""
-#     if page.bind_soc_network.is_presented():
-#         assert True
-#     else:
-#         assert False
-#
-#
-# def test_11(web_browser):
-#     """Авторизация в ЛК с помощью соц. сети Одноклассники"""
-#
-#     page = AuthPage(web_browser)
-#
-#     """Клик по кнопке Одноклассники"""
-#     page.button_OK.click()
-#
-#     """Проверяем вход в ЛК"""
-#     if page.avatar_user.is_presented():
-#         assert True
-#     else:
-#         assert False
+def test_10(web_browser):
+    """Получить информацию о привязке соц. сети к личному кабинету. """
+
+    page = AuthPage(web_browser)
+
+    """Клик по кнопке соц. сети VK"""
+    page.button_VK.click()
+
+    """Заполняем поля ввода"""
+    page.field_email_vk.send_keys(valid_email)
+    page.field_pass_vk.send_keys(pass_VK)
+    page.btn_come_in_vk.click()
+
+    """Проверяем наличие вспомогательной информации."""
+    if page.bind_soc_network.is_presented():
+        assert True
+    else:
+        assert False
+
+
+def test_11(web_browser):
+    """Авторизация в ЛК с помощью соц. сети Одноклассники"""
+
+    page = AuthPage(web_browser)
+
+    """Клик по кнопке Одноклассники"""
+    page.button_OK.click()
+
+    """Заполняем поля формы"""
+    page.field_email_ok.send_keys(valid_email)
+    page.field_pass_ok.send_keys(pass_OK)
+    page.btn_come_in_ok.click()
+
+    """Проверяем вход в ЛК"""
+    if page.site_ros_telecom.is_visible():
+        assert True
+    else:
+        assert False
 
 
 def test_12(web_browser):
