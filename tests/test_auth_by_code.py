@@ -52,4 +52,4 @@ def test_15_negative(web_browser):
 
     """Проверка отправки кода подтверждения"""
     assert "Код подтверждения отправлен" in page.send_confirm.get_text()
-    time.sleep(20)
+
